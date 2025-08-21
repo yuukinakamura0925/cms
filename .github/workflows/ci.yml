@@ -33,8 +33,14 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: 3.1.4
-        bundler-cache: true
+        bundler: latest
         working-directory: backend
+        
+    - name: Install dependencies
+      working-directory: backend
+      run: |
+        gem update --system
+        bundle install
 
     - name: Set up database
       working-directory: backend
