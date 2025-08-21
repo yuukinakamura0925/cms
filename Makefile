@@ -58,5 +58,5 @@ fix:
 
 test:
 	@echo "🧪 テスト実行中..."
-	cd backend && bundle exec rails test
+	cd backend && bundle exec rspec
 	@echo "✅ テスト完了"

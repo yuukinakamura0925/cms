@@ -1,6 +1,6 @@
 # RuboCop設定 - 開発しやすさを重視した緩い設定
 
-require:
+plugins:
   - rubocop-rails      # Rails固有のルールを追加
   - rubocop-performance # パフォーマンス関連のルールを追加
 
