@@ -1,0 +1,63 @@
+# RuboCop設定 - 開発しやすさを重視した緩い設定
+
+require:
+  - rubocop-rails      # Rails固有のルールを追加
+  - rubocop-performance # パフォーマンス関連のルールを追加
+
+AllCops:
+  TargetRubyVersion: 3.1
+  NewCops: enable      # 新しいcopを自動で有効化（段階的に導入）
+  Exclude:             # チェック対象外のファイル
+    - 'bin/**/*'       # 実行ファイル（Railsが生成）
+    - 'db/schema.rb'   # DBスキーマ（自動生成）
+    - 'db/migrate/**/*' # マイグレーション（定型文が多い）
+    - 'vendor/**/*'    # 外部ライブラリ
+    - 'config/routes.rb' # ルーティング（DSLなので除外）
+    - 'Gemfile'        # Gem定義（DSLなので除外）
+
+# ========================================
+# レイアウト・フォーマット系（緩め設定）
+# ========================================
+Layout/LineLength:
+  Max: 120             # 1行120文字まで（デフォルト80文字より緩い）
+  Exclude:
+    - 'config/**/*'    # 設定ファイルは長くなりがち
+
+# ========================================
+# スタイル系（開発効率重視）
+# ========================================
+Style/Documentation:
+  Enabled: false       # クラス・モジュールのドキュメント強制なし（小規模開発向け）
+
+Style/FrozenStringLiteralComment:
+  Enabled: false       # frozen_string_literal コメント強制なし（古いRails互換）
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes # 文字列はダブルクォート統一（Railsデフォルト）
+
+# ========================================
+# メトリクス系（緩い制限）
+# ========================================
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'      # テストコードは長いブロックOK
+    - 'config/**/*'    # 設定ファイルは長いブロックOK
+
+Metrics/MethodLength:
+  Max: 15              # メソッドは15行まで（デフォルト10行より緩い）
+
+# ========================================
+# Rails固有（実用性重視）
+# ========================================
+Rails/Output:
+  Exclude:
+    - 'db/seeds.rb'    # seedsファイルでのputs等はOK
+
+Rails/SkipsModelValidations:
+  Enabled: false       # バリデーションスキップ（update_all等）を許可
+
+# ========================================
+# パフォーマンス系（最低限のみ）
+# ========================================
+Performance/Casecmp:
+  Enabled: true        # 文字列比較の最適化は有効

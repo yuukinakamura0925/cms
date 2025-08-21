@@ -1,4 +1,4 @@
-.PHONY: help backend frontend stop logs clean status
+.PHONY: help backend frontend stop logs clean status lint fix test
 
 help:
 	@echo "利用可能なコマンド:"
@@ -8,6 +8,9 @@ help:
 	@echo "  make logs      - バックエンドのログを表示"
 	@echo "  make clean     - コンテナとボリュームを完全削除"
 	@echo "  make status    - サービス状況を確認"
+	@echo "  make lint      - コード品質チェック（RuboCop + ESLint）"
+	@echo "  make fix       - コード自動修正"
+	@echo "  make test      - テスト実行"
 
 backend:
 	@echo "🚀 バックエンドを起動中..."
@@ -39,3 +42,21 @@ clean:
 status:
 	@echo "📊 サービス状況:"
 	docker-compose ps
+
+# Code Quality
+lint:
+	@echo "🔍 コード品質チェック中..."
+	cd backend && bundle exec rubocop
+	cd frontend && pnpm run lint
+	@echo "✅ コード品質チェック完了"
+
+fix:
+	@echo "🔧 コード自動修正中..."
+	cd backend && bundle exec rubocop -A
+	cd frontend && pnpm run lint --fix
+	@echo "✅ コード自動修正完了"
+
+test:
+	@echo "🧪 テスト実行中..."
+	cd backend && bundle exec rails test
+	@echo "✅ テスト完了"
