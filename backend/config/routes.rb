@@ -4,6 +4,20 @@ Rails.application.routes.draw do
   # API routes
   namespace :api do
     namespace :v1 do
+      # 認証関連
+      post 'auth/login', to: 'auth#login'
+      post 'auth/register', to: 'auth#register'
+      post 'auth/logout', to: 'auth#logout'
+      get 'auth/me', to: 'auth#me'
+      
+      # 管理者専用API
+      namespace :admin do
+        get 'users', to: 'admin#users'
+        get 'users/:id', to: 'admin#user'
+        put 'users/:id', to: 'admin#update_user'
+        delete 'users/:id', to: 'admin#delete_user'
+      end
+      
       get 'home', to: 'home#index'
     end
   end

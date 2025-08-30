@@ -1,64 +1,72 @@
-# CMS Backend API
+# CMS Backend
 
-顧客管理システムのバックエンドAPI (Ruby on Rails)
+Rails APIを使用したコンテンツ管理システムのバックエンド
 
-## 🏗️ 技術スタック
+## 機能
 
-- **Ruby** 3.0+
-- **Ruby on Rails** - WebアプリケーションフレームワークAPI
-- **PostgreSQL** - データベース
-- **Docker** - コンテナ化
+- JWT認証システム
+- ユーザー管理（管理者・一般ユーザー）
+- Role-Based Access Control (RBAC)
 
-## 🚀 セットアップ
-
-### 前提条件
-- Ruby 3.0以上
-- PostgreSQL
-- Docker (推奨)
-
-### Docker環境での起動
+## セットアップ
 
 ```bash
-# ルートディレクトリから
-make backend
-```
-
-### ローカル環境での起動
-
-```bash
-# 依存関係をインストール
+# 依存関係のインストール
 bundle install
 
-# データベース作成
-rails db:create
+# データベースのセットアップ
+rails db:create db:migrate db:seed
 
-# マイグレーション実行
-rails db:migrate
-
-# 開発サーバー起動
-rails server -p 3000
+# サーバーの起動
+rails server -p 3001
 ```
 
-## 📡 API エンドポイント
+## API エンドポイント
 
-- ベースURL: `http://localhost:3001`
-- ヘルスチェック: `GET /api/v1/home`
+### 認証関連
+- `POST /api/v1/auth/login` - ログイン
+- `POST /api/v1/auth/register` - ユーザー登録
+- `POST /api/v1/auth/logout` - ログアウト
+- `GET /api/v1/auth/me` - 現在のユーザー情報
 
-## 🧪 テスト
+### 管理者専用
+- `GET /api/v1/admin/users` - ユーザー一覧
+- `GET /api/v1/admin/users/:id` - ユーザー詳細
+- `PUT /api/v1/admin/users/:id` - ユーザー更新
+- `DELETE /api/v1/admin/users/:id` - ユーザー削除
 
-```bash
-rails test
+## テスト用アカウント
+
+```
+管理者: admin@example.com / password123
+ユーザー1: user1@example.com / password123
+ユーザー2: user2@example.com / password123
 ```
 
-## 🐳 Docker コマンド
+## 開発ガイド
 
-```bash
-# ログ確認
-make logs
+### APIレスポンス形式
+APIのレスポンス形式に関するルールは [API_RESPONSE_RULES.md](./API_RESPONSE_RULES.md) を参照してください。
 
-# 停止
-make stop
+### アーキテクチャ
 
-# クリーンアップ
-make clean
-```
+#### 認証システム
+- **JWT認証**: `JwtService` でトークンの生成・検証
+- **認証Concern**: `JwtAuthenticatable` で認証処理
+- **権限管理**: `ensure_admin!` で管理者権限チェック
+
+#### レスポンス形式
+- **基本レスポンス**: `ApiResponse` Concern
+- **モデル別レスポンス**: `UserResponse` などの専用Concern
+
+## 技術スタック
+
+- **Ruby**: 3.1.4
+- **Rails**: 7.1.5
+- **PostgreSQL**: データベース
+- **JWT**: 認証トークン
+- **bcrypt**: パスワードハッシュ化
+
+## ライセンス
+
+MIT License
