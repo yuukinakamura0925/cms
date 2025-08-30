@@ -56,7 +56,7 @@ export default function RegisterPage() {
       } else {
         setError(response.message || '登録に失敗しました');
       }
-    } catch (error) {
+    } catch {
       setError('登録に失敗しました');
     } finally {
       setLoading(false);

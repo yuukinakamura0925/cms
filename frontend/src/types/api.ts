@@ -14,6 +14,7 @@ export interface User {
   email: string;
   name: string;
   role: 'admin' | 'user';
+  created_at: string;
 }
 
 export interface AuthTokens {
