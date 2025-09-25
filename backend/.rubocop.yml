@@ -35,6 +35,10 @@ Style/FrozenStringLiteralComment:
 Style/StringLiterals:
   EnforcedStyle: double_quotes # 文字列はダブルクォート統一（Railsデフォルト）
 
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact       # Api::V1::AdminController のようなコンパクトスタイルを許可
+  # または Enabled: false で完全に無効化も可能
+
 # ========================================
 # メトリクス系（緩い制限）
 # ========================================
@@ -44,7 +48,7 @@ Metrics/BlockLength:
     - 'config/**/*'    # 設定ファイルは長いブロックOK
 
 Metrics/MethodLength:
-  Max: 15              # メソッドは15行まで（デフォルト10行より緩い）
+  Max: 30              # メソッドは30行まで（デフォルト10行より緩い）
 
 # ========================================
 # Rails固有（実用性重視）

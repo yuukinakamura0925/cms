@@ -10,21 +10,21 @@ class User < ApplicationRecord
   before_validation :set_default_role, on: :create
 
   # スコープ
-  scope :admins, -> { where(role: 'admin') }
-  scope :users, -> { where(role: 'user') }
+  scope :admins, -> { where(role: "admin") }
+  scope :users, -> { where(role: "user") }
 
   # インスタンスメソッド
   def admin?
-    role == 'admin'
+    role == "admin"
   end
 
   def user?
-    role == 'user'
+    role == "user"
   end
 
   private
 
   def set_default_role
-    self.role ||= 'user'
+    self.role ||= "user"
   end
 end

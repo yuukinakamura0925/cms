@@ -1,7 +1,7 @@
 class Api::V1::AuthController < ApplicationController
   include UserResponse
-  
-  skip_before_action :authenticate_user!, only: [:login, :register]
+
+  skip_before_action :authenticate_user!, only: %i[login register]
 
   def login
     user = User.find_by(email: params[:email])
@@ -10,7 +10,7 @@ class Api::V1::AuthController < ApplicationController
       tokens = JwtService.generate_tokens(user)
       user_created_response(user, tokens)
     else
-      error_response('メールアドレスまたはパスワードが正しくありません', :unauthorized)
+      error_response("メールアドレスまたはパスワードが正しくありません", :unauthorized)
     end
   end
 
@@ -21,13 +21,13 @@ class Api::V1::AuthController < ApplicationController
       tokens = JwtService.generate_tokens(user)
       user_created_response(user, tokens)
     else
-      error_response('ユーザー登録に失敗しました', :unprocessable_entity, user.errors.full_messages)
+      error_response("ユーザー登録に失敗しました", :unprocessable_entity, user.errors.full_messages)
     end
   end
 
   def logout
     # JWTはステートレスなので、クライアント側でトークンを削除する
-    success_response(nil, 'ログアウトしました')
+    success_response(nil, "ログアウトしました")
   end
 
   def me
@@ -39,4 +39,4 @@ class Api::V1::AuthController < ApplicationController
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :name)
   end
-end 
+end
