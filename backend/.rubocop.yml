@@ -37,7 +37,9 @@ Style/StringLiterals:
 
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact       # Api::V1::AdminController のようなコンパクトスタイルを許可
-  # または Enabled: false で完全に無効化も可能
+  Exclude:
+    - 'config/application.rb'  # Railsが要求するネストスタイルを維持
+    - 'app/channels/**/*'      # ActionCableもネストスタイルが必要
 
 # ========================================
 # メトリクス系（緩い制限）
