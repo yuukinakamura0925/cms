@@ -29,30 +29,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const checkAuth = async () => {
+    console.log('認証チェック開始');
     try {
       const token = localStorage.getItem('access_token');
+      console.log('トークン:', token ? 'あり' : 'なし');
       if (!token) {
         setLoading(false);
         return;
       }
 
       const response = await getMe();
+      console.log('認証レスポンス:', response);
       if (response.status === 'success' && response.data?.user) {
+        console.log('ユーザー情報設定:', response.data.user);
         setUser(response.data.user);
       } else {
+        console.log('認証失敗、ログアウト実行');
         logout();
       }
     } catch (error) {
       console.error('認証チェックエラー:', error);
       logout();
     } finally {
+      console.log('認証チェック完了、loading=false');
       setLoading(false);
     }
   };
 
   useEffect(() => {
     checkAuth();
-  }, [checkAuth]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <AuthContext.Provider value={{ user, loading, login, logout, checkAuth }}>
