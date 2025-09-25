@@ -16,7 +16,7 @@ class ApiResponseService
   end
 
   def self.success_response(data = nil, message = nil, status = :ok)
-    response = { status: "success" }
+    response = { status: 'success' }
     response[:message] = message if message
     response[:data] = data if data
 
@@ -25,7 +25,7 @@ class ApiResponseService
 
   def self.error_response(message, status = :unprocessable_entity, errors = nil)
     response = {
-      status: "error",
+      status: 'error',
       message: message
     }
     response[:errors] = errors if errors

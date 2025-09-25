@@ -41,10 +41,10 @@ module UserResponse
     data = { user: user_json(user) }
     data[:tokens] = tokens if tokens
 
-    success_response(data, "ユーザー登録に成功しました", :created)
+    success_response(data, 'ユーザー登録に成功しました', :created)
   end
 
-  def user_updated_response(user, message = "ユーザー情報を更新しました")
+  def user_updated_response(user, message = 'ユーザー情報を更新しました')
     success_response({ user: user_json(user) }, message)
   end
 end
