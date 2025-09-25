@@ -1,10 +1,11 @@
-.PHONY: help backend frontend stop logs clean status lint fix test
+.PHONY: help backend frontend stop down logs clean status lint fix test
 
 help:
 	@echo "利用可能なコマンド:"
 	@echo "  make backend   - バックエンド（Rails API + PostgreSQL）を起動"
 	@echo "  make frontend  - フロントエンド（Next.js）をローカルで起動"
 	@echo "  make stop      - 全てのサービスを停止"
+	@echo "  make down      - 全てのサービスを停止（stopのエイリアス）"
 	@echo "  make logs      - バックエンドのログを表示"
 	@echo "  make clean     - コンテナとボリュームを完全削除"
 	@echo "  make status    - サービス状況を確認"
@@ -30,6 +31,8 @@ stop:
 	-pkill -f "next dev" || true
 	-pkill -f "pnpm.*dev" || true
 	@echo "✅ 全サービス停止完了"
+
+down: stop
 
 logs:
 	docker-compose logs -f backend

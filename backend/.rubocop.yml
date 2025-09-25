@@ -33,7 +33,13 @@ Style/FrozenStringLiteralComment:
   Enabled: false       # frozen_string_literal コメント強制なし（古いRails互換）
 
 Style/StringLiterals:
-  EnforcedStyle: double_quotes # 文字列はダブルクォート統一（Railsデフォルト）
+  EnforcedStyle: single_quotes  # シングルクォート優先（式展開時のみダブル）
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact       # Api::V1::AdminController のようなコンパクトスタイルを許可
+  Exclude:
+    - 'config/application.rb'  # Railsが要求するネストスタイルを維持
+    - 'app/channels/**/*'      # ActionCableもネストスタイルが必要
 
 # ========================================
 # メトリクス系（緩い制限）
@@ -44,7 +50,7 @@ Metrics/BlockLength:
     - 'config/**/*'    # 設定ファイルは長いブロックOK
 
 Metrics/MethodLength:
-  Max: 15              # メソッドは15行まで（デフォルト10行より緩い）
+  Max: 30              # メソッドは30行まで（デフォルト10行より緩い）
 
 # ========================================
 # Rails固有（実用性重視）

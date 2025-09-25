@@ -37,21 +37,15 @@
 ```bash
 # プロジェクトのルートディレクトリで実行
 
-# 1. 環境変数ファイルをセットアップ
-cp backend/.env.example backend/.env
-cp frontend/.env.example frontend/.env
+# 1. フロントエンドの依存関係をインストール
+cd frontend && pnpm install
+cd ..
 
 # 2. バックエンドとデータベースを起動
-make up
+make backend
 
-# 3. データベースのセットアップ
-make db-setup
-
-# 4. フロントエンドの依存関係をインストール
-cd frontend && pnpm install
-
-# 5. フロントエンドの開発サーバーを起動
-cd frontend && pnpm run dev
+# 3. 別のターミナルでフロントエンドを起動
+make frontend
 ```
 
 ### アクセス方法
@@ -63,25 +57,20 @@ cd frontend && pnpm run dev
 
 ### 基本的な操作
 ```bash
-make up          # バックエンドとDBを起動
-make down        # コンテナを停止・削除
-make restart     # コンテナを再起動
-make logs        # ログを表示
+make backend     # バックエンド（Rails API + PostgreSQL）を起動
+make frontend    # フロントエンド（Next.js）をローカルで起動
+make stop        # 全てのサービスを停止
+make down        # 全てのサービスを停止（stopのエイリアス）
+make logs        # バックエンドのログを表示
+make clean       # コンテナとボリュームを完全削除
+make status      # サービス状況を確認
 ```
 
-### データベース操作
+### コード品質
 ```bash
-make db-setup    # データベースを作成・マイグレーション実行
-make db-reset    # データベースをリセット
-make db-migrate  # マイグレーションを実行
-make db-seed     # シードデータを投入
-```
-
-### 開発用コマンド
-```bash
-make console     # Railsコンソールを起動
-make test        # テストを実行
-make build       # バックエンドをビルド
+make lint        # コード品質チェック（RuboCop + ESLint）
+make fix         # コード自動修正
+make test        # テスト実行
 ```
 
 ## 📁 プロジェクト構造
