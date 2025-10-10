@@ -68,9 +68,10 @@ make status      # サービス状況を確認
 
 ### コード品質
 ```bash
-make lint        # コード品質チェック（RuboCop + ESLint）
-make fix         # コード自動修正
-make test        # テスト実行
+make lint          # コード品質チェック（RuboCop + ESLint）
+make fix           # コード自動修正
+make test          # テスト実行
+make generate-types # OpenAPIスキーマからTypeScript型を自動生成
 ```
 
 ## 📁 プロジェクト構造
@@ -100,6 +101,77 @@ make test
 
 ## 📝 開発ガイドライン
 
+### API開発フロー
+
+新しいAPIを追加する際は、以下の手順に従ってください。
+
+**詳細は [API開発ガイド](./docs/api-development-guide.md) を参照してください。**
+
+#### クイックリファレンス
+
+```bash
+# 1. バックエンドAPI実装
+cd backend
+rails g controller Api::V1::ResourceName
+# コントローラー実装 + ルート追加
+
+# 2. Swagger定義追加
+# backend/swagger/v1/schemas/models.yaml にモデル追加
+# backend/swagger/v1/paths/resources.yaml にエンドポイント追加
+# backend/swagger/v1/openapi.yaml に参照追加
+
+# 3. TypeScript型生成
+make generate-types
+
+# 4. フロントエンドAPI関数作成
+# frontend/src/lib/actions/resource.ts に関数追加
+
+# 5. 画面から利用
+import { getResource } from '@/lib/actions';
+```
+
+### 型システムとAPI層の構成
+
+#### 型定義の構成
+```
+frontend/src/types/
+├── api/
+│   └── generated.ts      # OpenAPI自動生成（手動編集禁止）
+├── models/
+│   ├── form.ts          # フォーム専用型
+│   └── ui.ts            # UI状態管理型
+├── utils/
+│   └── common.ts        # 共通ユーティリティ型
+└── index.ts             # 統一エクスポート
+```
+
+#### API層の構成
+```
+frontend/src/lib/
+├── api-client.ts        # 共通fetchラッパー（認証ヘッダー管理）
+└── actions/
+    ├── auth.ts         # 認証関連API
+    ├── profile.ts      # プロフィール関連API
+    ├── home.ts         # ホーム関連API
+    └── index.ts        # 統一エクスポート
+```
+
+#### API開発の流れ
+```mermaid
+graph LR
+    A[バックエンドAPI実装] --> B[Swagger定義追加]
+    B --> C[型生成: make generate-types]
+    C --> D[actions/に関数追加]
+    D --> E[画面から利用]
+```
+
+**重要なポイント:**
+- `types/api/generated.ts` は自動生成 → 直接編集禁止
+- API仕様変更時は必ず `make generate-types` を実行
+- すべての型は `@/types` からimport
+- API関数は `@/lib/actions` からimport
+- 認証が必要なAPIは `apiFetch`、不要なAPIは `publicFetch` を使用
+
 ### コミットメッセージ
 - 日本語で記述
 - 変更内容を簡潔に説明
@@ -109,6 +181,7 @@ make test
 - テンプレートを使用して作成
 - 適切なレビュアーを指定
 - テストが通ることを確認
+- API変更時は型生成を忘れずに実行
 
 ## 🔧 環境変数
 
@@ -136,6 +209,7 @@ environment:
 
 ## 📚 ドキュメント
 
+- [API開発ガイド](./docs/api-development-guide.md) - 新しいAPI機能を追加する際の手順書
 - [フロントエンドREADME](./frontend/README.md)
 - [バックエンドREADME](./backend/README.md)
 

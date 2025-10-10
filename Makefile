@@ -1,17 +1,18 @@
-.PHONY: help backend frontend stop down logs clean status lint fix test
+.PHONY: help backend frontend stop down logs clean status lint fix test generate-types
 
 help:
 	@echo "利用可能なコマンド:"
-	@echo "  make backend   - バックエンド（Rails API + PostgreSQL）を起動"
-	@echo "  make frontend  - フロントエンド（Next.js）をローカルで起動"
-	@echo "  make stop      - 全てのサービスを停止"
-	@echo "  make down      - 全てのサービスを停止（stopのエイリアス）"
-	@echo "  make logs      - バックエンドのログを表示"
-	@echo "  make clean     - コンテナとボリュームを完全削除"
-	@echo "  make status    - サービス状況を確認"
-	@echo "  make lint      - コード品質チェック（RuboCop + ESLint）"
-	@echo "  make fix       - コード自動修正"
-	@echo "  make test      - テスト実行"
+	@echo "  make backend       - バックエンド（Rails API + PostgreSQL）を起動"
+	@echo "  make frontend      - フロントエンド（Next.js）をローカルで起動"
+	@echo "  make stop          - 全てのサービスを停止"
+	@echo "  make down          - 全てのサービスを停止（stopのエイリアス）"
+	@echo "  make logs          - バックエンドのログを表示"
+	@echo "  make clean         - コンテナとボリュームを完全削除"
+	@echo "  make status        - サービス状況を確認"
+	@echo "  make lint          - コード品質チェック（RuboCop + ESLint）"
+	@echo "  make fix           - コード自動修正"
+	@echo "  make test          - テスト実行"
+	@echo "  make generate-types - OpenAPIスキーマからTypeScript型を自動生成"
 
 backend:
 	@echo "🚀 バックエンドを起動中..."
@@ -63,3 +64,11 @@ test:
 	@echo "🧪 テスト実行中..."
 	cd backend && bundle exec rspec
 	@echo "✅ テスト完了"
+
+# Type Generation
+generate-types:
+	@echo "🔄 TypeScript型を生成中..."
+	@echo "   入力: backend/swagger/v1/swagger.yaml"
+	@echo "   出力: frontend/src/types/generated.ts"
+	cd frontend && pnpm run generate:types
+	@echo "✅ 型生成完了"

@@ -1,0 +1,13 @@
+# ホーム関連エンドポイント
+/api/v1/home:
+  get:
+    summary: ホームデータ取得
+    tags:
+      - Home
+    responses:
+      '200':
+        description: ホームデータ
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/responses.yaml#/HomeResponse'

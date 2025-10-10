@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { login } from '@/lib/api';
+import { login } from '@/lib/actions';
 import { useAuth } from '@/lib/auth';
 
 export default function LoginPage() {
@@ -21,11 +21,11 @@ export default function LoginPage() {
     try {
       const response = await login({ email, password });
       
-      if (response.status === 'success' && response.data) {
+      if (response.status === 'success' && response.data?.tokens && response.data?.user) {
         // トークンをローカルストレージに保存
         localStorage.setItem('access_token', response.data.tokens.access_token);
         localStorage.setItem('refresh_token', response.data.tokens.refresh_token);
-        
+
         // 認証コンテキストを更新
         authLogin(response.data.user);
         

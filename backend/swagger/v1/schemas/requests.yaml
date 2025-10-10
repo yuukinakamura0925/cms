@@ -1,0 +1,130 @@
+# リクエストボディ定義
+LoginRequest:
+  type: object
+  required:
+    - email
+    - password
+  properties:
+    email:
+      type: string
+    password:
+      type: string
+
+RegisterRequest:
+  type: object
+  required:
+    - user
+  properties:
+    user:
+      type: object
+      required:
+        - email
+        - password
+        - password_confirmation
+        - name
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        password_confirmation:
+          type: string
+        name:
+          type: string
+
+UserProfileRequest:
+  type: object
+  required:
+    - user_profile
+  properties:
+    user_profile:
+      type: object
+      required:
+        - last_name
+        - first_name
+        - last_name_kana
+        - first_name_kana
+      properties:
+        last_name:
+          type: string
+        first_name:
+          type: string
+        last_name_kana:
+          type: string
+        first_name_kana:
+          type: string
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+        gender:
+          type: string
+          enum:
+            - male
+            - female
+            - other
+            - prefer_not_to_say
+          nullable: true
+        phone_number:
+          type: string
+          nullable: true
+        postal_code:
+          type: string
+          nullable: true
+        prefecture:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        address_line:
+          type: string
+          nullable: true
+        building:
+          type: string
+          nullable: true
+        emergency_contact_name:
+          type: string
+          nullable: true
+        emergency_contact_phone:
+          type: string
+          nullable: true
+        desired_job_type:
+          type: string
+          nullable: true
+        skills:
+          type: string
+          nullable: true
+        certifications:
+          type: string
+          nullable: true
+        years_of_experience:
+          type: integer
+          nullable: true
+        desired_work_location:
+          type: string
+          nullable: true
+        desired_employment_type:
+          type: string
+          enum:
+            - full_time
+            - part_time
+            - contract
+            - temporary
+            - freelance
+          nullable: true
+        desired_hourly_rate:
+          type: integer
+          nullable: true
+        profile_image_url:
+          type: string
+          nullable: true
+        self_introduction:
+          type: string
+          nullable: true
+        available_days:
+          type: string
+          nullable: true
+        transportation:
+          type: string
+          nullable: true

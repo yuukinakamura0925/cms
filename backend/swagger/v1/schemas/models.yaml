@@ -1,0 +1,141 @@
+# エンティティ・モデル定義
+User:
+  type: object
+  required:
+    - id
+    - email
+    - name
+    - role
+    - created_at
+  properties:
+    id:
+      type: integer
+    email:
+      type: string
+    name:
+      type: string
+    role:
+      type: string
+      enum:
+        - admin
+        - user
+    created_at:
+      type: string
+      format: date-time
+
+UserProfile:
+  type: object
+  required:
+    - id
+    - user_id
+    - last_name
+    - first_name
+    - last_name_kana
+    - first_name_kana
+    - created_at
+    - updated_at
+  properties:
+    id:
+      type: integer
+    user_id:
+      type: integer
+    last_name:
+      type: string
+    first_name:
+      type: string
+    last_name_kana:
+      type: string
+    first_name_kana:
+      type: string
+    birth_date:
+      type: string
+      format: date
+      nullable: true
+    gender:
+      type: string
+      enum:
+        - male
+        - female
+        - other
+        - prefer_not_to_say
+      nullable: true
+    phone_number:
+      type: string
+      nullable: true
+    postal_code:
+      type: string
+      nullable: true
+    prefecture:
+      type: string
+      nullable: true
+    city:
+      type: string
+      nullable: true
+    address_line:
+      type: string
+      nullable: true
+    building:
+      type: string
+      nullable: true
+    emergency_contact_name:
+      type: string
+      nullable: true
+    emergency_contact_phone:
+      type: string
+      nullable: true
+    desired_job_type:
+      type: string
+      nullable: true
+    skills:
+      type: string
+      nullable: true
+    certifications:
+      type: string
+      nullable: true
+    years_of_experience:
+      type: integer
+      nullable: true
+    desired_work_location:
+      type: string
+      nullable: true
+    desired_employment_type:
+      type: string
+      enum:
+        - full_time
+        - part_time
+        - contract
+        - temporary
+        - freelance
+      nullable: true
+    desired_hourly_rate:
+      type: integer
+      nullable: true
+    profile_image_url:
+      type: string
+      nullable: true
+    self_introduction:
+      type: string
+      nullable: true
+    available_days:
+      type: string
+      nullable: true
+    transportation:
+      type: string
+      nullable: true
+    created_at:
+      type: string
+      format: date-time
+    updated_at:
+      type: string
+      format: date-time
+
+AuthTokens:
+  type: object
+  required:
+    - access_token
+    - refresh_token
+  properties:
+    access_token:
+      type: string
+    refresh_token:
+      type: string

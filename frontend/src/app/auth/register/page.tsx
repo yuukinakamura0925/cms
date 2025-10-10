@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { register } from '@/lib/api';
+import { register } from '@/lib/actions';
 import { useAuth } from '@/lib/auth';
 
 export default function RegisterPage() {
@@ -39,11 +39,11 @@ export default function RegisterPage() {
     try {
       const response = await register({ user: formData });
       
-      if (response.status === 'success' && response.data) {
+      if (response.status === 'success' && response.data?.tokens && response.data?.user) {
         // トークンをローカルストレージに保存
         localStorage.setItem('access_token', response.data.tokens.access_token);
         localStorage.setItem('refresh_token', response.data.tokens.refresh_token);
-        
+
         // 認証コンテキストを更新
         authLogin(response.data.user);
         

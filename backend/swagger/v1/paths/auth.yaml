@@ -1,0 +1,62 @@
+# 認証関連エンドポイント
+/api/v1/auth/login:
+  post:
+    summary: ログイン
+    tags:
+      - Auth
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/requests.yaml#/LoginRequest'
+    responses:
+      '200':
+        description: ログイン成功
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/responses.yaml#/AuthResponse'
+
+/api/v1/auth/register:
+  post:
+    summary: ユーザー登録
+    tags:
+      - Auth
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/requests.yaml#/RegisterRequest'
+    responses:
+      '200':
+        description: 登録成功
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/responses.yaml#/AuthResponse'
+
+/api/v1/auth/logout:
+  post:
+    summary: ログアウト
+    tags:
+      - Auth
+    responses:
+      '200':
+        description: ログアウト成功
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/responses.yaml#/AuthResponse'
+
+/api/v1/auth/me:
+  get:
+    summary: 現在のユーザー取得
+    tags:
+      - Auth
+    responses:
+      '200':
+        description: ユーザー情報
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/responses.yaml#/MeResponse'

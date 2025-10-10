@@ -1,0 +1,61 @@
+# ユーザープロフィール関連エンドポイント
+/api/v1/user_profile:
+  get:
+    summary: プロフィール取得
+    tags:
+      - User Profile
+    responses:
+      '200':
+        description: プロフィール情報
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/models.yaml#/UserProfile'
+      '404':
+        description: プロフィールが見つかりません
+
+  post:
+    summary: プロフィール作成
+    tags:
+      - User Profile
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/requests.yaml#/UserProfileRequest'
+    responses:
+      '201':
+        description: プロフィール作成成功
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/models.yaml#/UserProfile'
+      '422':
+        description: バリデーションエラー
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/responses.yaml#/ErrorResponse'
+
+  patch:
+    summary: プロフィール更新
+    tags:
+      - User Profile
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '../schemas/requests.yaml#/UserProfileRequest'
+    responses:
+      '200':
+        description: プロフィール更新成功
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/models.yaml#/UserProfile'
+      '422':
+        description: バリデーションエラー
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/responses.yaml#/ErrorResponse'

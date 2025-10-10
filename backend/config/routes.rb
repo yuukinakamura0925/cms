@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # API routes
@@ -17,7 +19,10 @@ Rails.application.routes.draw do
         put 'users/:id', to: 'admin#update_user'
         delete 'users/:id', to: 'admin#delete_user'
       end
-      
+
+      # ユーザープロフィール
+      resource :user_profile, only: [:show, :create, :update]
+
       get 'home', to: 'home#index'
     end
   end
